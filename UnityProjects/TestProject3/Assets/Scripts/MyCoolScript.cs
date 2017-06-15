@@ -7,6 +7,8 @@ public class MyCoolScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    //This is a change that i made
+
+        //Made from nb-bac2
 	}
 	
 	// Update is called once per frame
