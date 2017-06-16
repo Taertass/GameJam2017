@@ -10,9 +10,9 @@ public class MyCoolScript : MonoBehaviour {
 
         //this is a change
 
-        //Made from nb-bac2
+        //Made from nb-bac2 
 
-        //Rho gjørt ting
+        //Rho gjørt ting as assa 
 	}
 	
 	// Update is called once per frame
