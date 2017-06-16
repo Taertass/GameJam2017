@@ -8,6 +8,7 @@ public class PlayerHandler : MonoBehaviour {
     public DirectionManager directionManager;
 
     private Rigidbody2D rigidBody;
+    private Animator ballAnimator;
 
     //public float maxJumpPower = 10f;
     //public float minJumpPower = 1f;
@@ -27,6 +28,10 @@ public class PlayerHandler : MonoBehaviour {
     void Start () {
         directionManager = GetComponentInChildren<DirectionManager>();
         rigidBody = GetComponent<Rigidbody2D>();
+        ballAnimator = ball.GetComponent<Animator>();
+        
+        
+        
     }
 	
 	// Update is called once per frame
@@ -44,9 +49,13 @@ public class PlayerHandler : MonoBehaviour {
         if(Input.GetMouseButton(0) && isStuck)
         {
             directionManager.IncreaseCurrentJumpPower();
+            ballAnimator.SetBool("IsStartingJump", true);
         }
         else if (Input.GetMouseButtonUp(0) && isStuck)
         {
+            ballAnimator.SetBool("IsStartingJump", false);
+            ballAnimator.SetBool("IsJumping", true);
+
             //Reenable the gravity on the player
             rigidBody.gravityScale = 1;
 
@@ -60,6 +69,8 @@ public class PlayerHandler : MonoBehaviour {
         }
         else if (isStuck)
         {
+            ballAnimator.SetBool("IsStartingJump", false);
+            ballAnimator.SetBool("IsJumping", false);
             //Arrest movement
             rigidBody.velocity = Vector2.zero;
 
