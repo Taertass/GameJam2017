@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour {
 
+    public UnityEngine.UI.Text versionText;
+
+    private void Start()
+    {
+        if(versionText != null)
+            versionText.text = "v " + Application.version;
+    }
+
     public void StartGameButtonClicked()
     {
         SceneManager.LoadScene(1);
@@ -12,7 +20,7 @@ public class MenuHandler : MonoBehaviour {
 
     public void SettingsButtonClicked()
     {
-
+        
     }
 
     public void QuitButtonClicked()
