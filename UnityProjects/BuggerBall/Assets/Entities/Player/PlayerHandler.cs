@@ -13,8 +13,7 @@ public class PlayerHandler : MonoBehaviour {
 
     //Collision
     public Transform _transform;
-
-
+    
     public bool isStuck;
 
     public bool isAlive = true;
@@ -86,7 +85,8 @@ public class PlayerHandler : MonoBehaviour {
             //Reset 
             directionManager.ResetCurrentJumpPower();
 
-            SoundHandler.Instance.PlayJumpClip();
+            if(SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayJumpClip();
 
             //Reenable movement on the player
             rigidBody.constraints = RigidbodyConstraints2D.None;
@@ -128,7 +128,8 @@ public class PlayerHandler : MonoBehaviour {
 
         if(string.Equals(tag, "NoneStick"))
         {
-            SoundHandler.Instance.PlayNoneStickImpactClip();
+            if (SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayNoneStickImpactClip();
             isStuck = false;
             return;
         }
@@ -169,7 +170,8 @@ public class PlayerHandler : MonoBehaviour {
 
             Invoke("LoseGame", 2.5f);
 
-            SoundHandler.Instance.PlayHurtClip();
+            if (SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayHurtClip();
         }
         else
         {
@@ -181,7 +183,8 @@ public class PlayerHandler : MonoBehaviour {
                 LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
                 Grow();
 
-                SoundHandler.Instance.PlayUpgradeSound();
+                if (SoundHandler.Instance != null)
+                    SoundHandler.Instance.PlayUpgradeSound();
             }
         }
     }

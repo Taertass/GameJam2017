@@ -29,7 +29,7 @@ public class OverlayGuiHandler : MonoBehaviour {
     void Start () {
         instance = this;
 
-        levelText.text = "Level " + SceneManager.GetActiveScene().buildIndex;
+        levelText.text = "Level " + (SceneManager.GetActiveScene().buildIndex - 1);
 	}
 	
 	// Update is called once per frame
