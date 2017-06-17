@@ -13,8 +13,7 @@ public class PlayerHandler : MonoBehaviour {
 
     //Collision
     public Transform _transform;
-
-
+    
     public bool isStuck;
 
     public bool isAlive = true;
@@ -34,6 +33,8 @@ public class PlayerHandler : MonoBehaviour {
         ballAnimator = ball.GetComponent<Animator>();
 
         _transform = transform;
+
+        rigidBody.velocity += Vector2.down;
     }
 
 	// Update is called once per frame
@@ -42,6 +43,9 @@ public class PlayerHandler : MonoBehaviour {
             return;
 
         CheckCollision();
+
+        if (rigidBody.velocity.magnitude == 0 && !isStuck)
+            SetToBeStuck();
 
         if (!isAlive)
         {
@@ -59,10 +63,13 @@ public class PlayerHandler : MonoBehaviour {
             directionManager.IncreaseCurrentJumpPower();
             ballAnimator.SetBool("IsStartingJump", true);
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && isStuck)
         {
             if (!directionManager.CanJumpDirection())
+            {
+                directionManager.ResetCurrentJumpPower();
                 return;
+            }
 
             isStuck = false;
 
@@ -80,7 +87,8 @@ public class PlayerHandler : MonoBehaviour {
             //Reset 
             directionManager.ResetCurrentJumpPower();
 
-            SoundHandler.Instance.PlayJumpClip();
+            if(SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayJumpClip();
 
             //Reenable movement on the player
             rigidBody.constraints = RigidbodyConstraints2D.None;
@@ -122,13 +130,23 @@ public class PlayerHandler : MonoBehaviour {
 
         if(string.Equals(tag, "NoneStick"))
         {
-            SoundHandler.Instance.PlayNoneStickImpactClip();
+            if (SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayNoneStickImpactClip();
             isStuck = false;
             return;
         }
 
         if (isStuck)
             return;
+
+        SetToBeStuck();
+
+
+
+    }
+
+    private void SetToBeStuck()
+    {
 
         SoundHandler.Instance.PlayImpactClip();
 
@@ -154,7 +172,8 @@ public class PlayerHandler : MonoBehaviour {
 
             Invoke("LoseGame", 2.5f);
 
-            SoundHandler.Instance.PlayHurtClip();
+            if (SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayHurtClip();
         }
         else
         {
@@ -166,7 +185,8 @@ public class PlayerHandler : MonoBehaviour {
                 LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
                 Grow();
 
-                SoundHandler.Instance.PlayUpgradeSound();
+                if (SoundHandler.Instance != null)
+                    SoundHandler.Instance.PlayUpgradeSound();
             }
         }
     }
@@ -186,7 +206,7 @@ public class PlayerHandler : MonoBehaviour {
         directionManager.IncreaseMaxJumpPower();
     }
 
-    private float hitLimitDistance = 0.5f;
+    private float hitLimitDistance = 0.6f;
 
     private void CheckCollision()
     {
@@ -196,13 +216,25 @@ public class PlayerHandler : MonoBehaviour {
         RaycastHit2D hitLeft = Physics2D.Raycast(_transform.position, Vector3.left, hitLimitDistance);
 
         if (hitUp != null && hitUp.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.up, Color.red, 20, true);
             stuckToDirections = Direction.Up;
+        }
         if (hitRight != null && hitRight.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.right, Color.red, 20, true);
             stuckToDirections = Direction.Right;
+        }
         if (hitDown != null && hitDown.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.down, Color.red, 20, true);
             stuckToDirections = Direction.Down;
+        }
         if (hitLeft != null && hitLeft.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.left, Color.red, 20, true);
             stuckToDirections = Direction.Left;
+        }
 
     }
 }
