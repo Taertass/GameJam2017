@@ -147,8 +147,8 @@ public class PlayerHandler : MonoBehaviour {
 
     private void SetToBeStuck()
     {
-
-        SoundHandler.Instance.PlayImpactClip();
+        if(SoundHandler.Instance != null)
+            SoundHandler.Instance.PlayImpactClip();
 
         isStuck = true;
 
