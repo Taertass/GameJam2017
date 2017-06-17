@@ -18,9 +18,7 @@ public class PlayerHandler : MonoBehaviour {
     private AudioSource myAudioSource;
 
     //Collision
-    private float circleRadius = 0.5f;
-    private Vector3 previousPosition, directionV;
-    Transform _transform;
+    public Transform _transform;
 
 
     public bool isStuck;
@@ -43,7 +41,6 @@ public class PlayerHandler : MonoBehaviour {
         myAudioSource = GetComponent<AudioSource>();
 
         _transform = transform;
-        previousPosition = transform.position;
     }
 
     private Direction stuckToDirections = Direction.Down;
@@ -68,8 +65,11 @@ public class PlayerHandler : MonoBehaviour {
             directionManager.IncreaseCurrentJumpPower();
             ballAnimator.SetBool("IsStartingJump", true);
         }
-        else if (Input.GetMouseButtonUp(0) && isStuck)
+        else if (Input.GetMouseButtonUp(0))
         {
+            if (!directionManager.CanJumpDirection())
+                return;
+
             isStuck = false;
 
             ballAnimator.SetBool("IsStartingJump", false);
@@ -125,7 +125,6 @@ public class PlayerHandler : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         string tag = string.Empty;
         if (collision.gameObject != null)
             tag = collision.gameObject.tag;
@@ -185,14 +184,6 @@ public class PlayerHandler : MonoBehaviour {
 
     private void CheckCollision()
     {
-        //if (_transform.position == previousPosition)
-        //    return;
-
-        //directionV = _transform.position - previousPosition;
-        //RaycastHit2D hit = Physics2D.Raycast(_transform.position, directionV, 1);
-
-
-
         RaycastHit2D hitUp = Physics2D.Raycast(_transform.position, Vector3.up, 0.5f);
         RaycastHit2D hitRight = Physics2D.Raycast(_transform.position, Vector3.right, 0.5f);
         RaycastHit2D hitDown = Physics2D.Raycast(_transform.position, Vector3.down, 0.5f);
@@ -207,27 +198,6 @@ public class PlayerHandler : MonoBehaviour {
         if (hitLeft != null && hitLeft.collider != null)
             stuckToDirections = Direction.Left;
 
-
-
-        //if (hit != null && hit.collider != null)
-        //{
-        //    if (hit.normal.x != 0f)
-        //    {
-        //        if (hit.normal.x > 0f)
-        //            stuckToDirections = Direction.Left;
-        //        else
-        //            stuckToDirections = Direction.Right;
-        //    }
-        //    else if (hit.normal.y != 0f)
-        //    {
-        //        if (hit.normal.y > 0f)
-        //            stuckToDirections = Direction.Down;
-        //        else
-        //            stuckToDirections = Direction.Up;
-        //    }
-        //}
-
-        //previousPosition = _transform.position;
     }
 }
 
