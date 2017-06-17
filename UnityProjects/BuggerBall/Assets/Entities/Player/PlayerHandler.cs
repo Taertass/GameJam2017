@@ -9,11 +9,13 @@ public class PlayerHandler : MonoBehaviour {
 
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
+    private Collider2D collider;
 
-    //public float maxJumpPower = 10f;
-    //public float minJumpPower = 1f;
-    //public float currentJumpPower = 1f;
-    //public float jumpPowerGrowthSpeed = 5f;
+    public IsTriggeredHandler leftTrigger;
+    public IsTriggeredHandler topTrigger;
+    public IsTriggeredHandler rightTrigger;
+    public IsTriggeredHandler bottomTrigger;
+
     public bool isStuck;
 
     public bool CanJump
@@ -29,9 +31,7 @@ public class PlayerHandler : MonoBehaviour {
         directionManager = GetComponentInChildren<DirectionManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         ballAnimator = ball.GetComponent<Animator>();
-        
-        
-        
+        collider = GetComponent<Collider2D>();
     }
 
     private Direction stuckToDirections = Direction.Down;
@@ -100,15 +100,38 @@ public class PlayerHandler : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var direction = ReturnDirection(this.gameObject, collision.gameObject);
-        //if(direction.y < 0)
-        //{
-        //    stuckToDirections = Direction.Up;
-        //} else if(direction > 0)
-        //{
-        //    stuckToDirections
-        //}
-        Debug.Log(direction);
+        Collider2D collider = collision.collider;
+        float RectWidth = this.collider.bounds.size.x;
+        float RectHeight = this.collider.bounds.size.y;
+        float circleRad = collider.bounds.size.x;
+
+        if (collider != null)
+        {
+            Vector3 contactPoint = collision.contacts[0].point;
+            Vector3 center = collider.bounds.center;
+
+            if (contactPoint.y > center.y && //checks that circle is on top of rectangle
+                (contactPoint.x < center.x + RectWidth / 2 && contactPoint.x > center.x - RectWidth / 2))
+            {
+                stuckToDirections = Direction.Down;
+            }
+            else if (contactPoint.y < center.y &&
+                (contactPoint.x < center.x + RectWidth / 2 && contactPoint.x > center.x - RectWidth / 2))
+            {
+                stuckToDirections = Direction.Up;
+            }
+            else if (contactPoint.x > center.x &&
+                (contactPoint.y < center.y + RectHeight / 2 && contactPoint.y > center.y - RectHeight / 2))
+            {
+                stuckToDirections = Direction.Left;
+            }
+            else if (contactPoint.x < center.x &&
+                (contactPoint.y < center.y + RectHeight / 2 && contactPoint.y > center.y - RectHeight / 2))
+            {
+                stuckToDirections = Direction.Right;
+            }
+        }
+
         isStuck = true;
     }
 
@@ -122,36 +145,7 @@ public class PlayerHandler : MonoBehaviour {
         ball.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
     }
 
-    private Direction ReturnDirection(GameObject Object, GameObject ObjectHit)
-    {
-        Direction hitDirection = Direction.Down;
-        RaycastHit MyRayHit;
-        Vector3 direction = (Object.transform.position - ObjectHit.transform.position).normalized;
-        Ray MyRay = new Ray(ObjectHit.transform.position, direction);
-
-        
-
-        if (Physics.Raycast(MyRay, out MyRayHit))
-        {
-            
-            if (MyRayHit.collider != null)
-            {
-                Vector3 MyNormal = MyRayHit.normal;
-                MyNormal = MyRayHit.transform.TransformDirection(MyNormal);
-
-                if (MyNormal == MyRayHit.transform.up) { hitDirection = Direction.Up; }
-                if (MyNormal == -MyRayHit.transform.up) { hitDirection = Direction.Down; }
-                if (MyNormal == MyRayHit.transform.right) { hitDirection = Direction.Right; }
-                if (MyNormal == -MyRayHit.transform.right) { hitDirection = Direction.Left; }
-            }
-        }
-
-        Debug.Log(direction);
-        Debug.Log(MyRay);
-        Debug.Log(hitDirection);
-
-        return hitDirection;
-    }
+    
 }
 
 public enum Direction
