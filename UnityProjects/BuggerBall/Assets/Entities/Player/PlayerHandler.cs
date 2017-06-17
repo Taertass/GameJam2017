@@ -17,6 +17,11 @@ public class PlayerHandler : MonoBehaviour {
     private Animator ballAnimator;
     private AudioSource myAudioSource;
 
+    //Collision
+    private float circleRadius = 0.5f;
+    private Vector3 previousPosition, directionV;
+    Transform _transform;
+
 
     public bool isStuck;
 
@@ -34,6 +39,9 @@ public class PlayerHandler : MonoBehaviour {
         rigidBody = GetComponent<Rigidbody2D>();
         ballAnimator = ball.GetComponent<Animator>();
         myAudioSource = GetComponent<AudioSource>();
+
+        _transform = transform;
+        previousPosition = transform.position;
     }
 
     private Direction stuckToDirections = Direction.Down;
@@ -49,10 +57,7 @@ public class PlayerHandler : MonoBehaviour {
         }
         else if (Input.GetMouseButtonUp(0) && isStuck)
         {
-
-            jumpStarted = true;
             isStuck = false;
-            canLand = true;
 
             ballAnimator.SetBool("IsStartingJump", false);
             ballAnimator.SetBool("IsJumping", true);
@@ -73,8 +78,8 @@ public class PlayerHandler : MonoBehaviour {
 
             myAudioSource.Play();
 
-            //Reenable the gravity on the player
-            rigidBody.gravityScale = 1;
+            //Reenable movement on the player
+            rigidBody.constraints = RigidbodyConstraints2D.None;
         }
         else if (isStuck)
         {
@@ -82,9 +87,6 @@ public class PlayerHandler : MonoBehaviour {
             rigidBody.velocity = Vector2.zero;            
         }
     }
-
-    bool canLand = false;
-    bool jumpStarted = false;
 
     private void SetSpritStuckTo(Direction direction)
     {
@@ -108,11 +110,6 @@ public class PlayerHandler : MonoBehaviour {
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isStuck)
@@ -120,51 +117,13 @@ public class PlayerHandler : MonoBehaviour {
 
         isStuck = true;
 
-        rigidBody.gravityScale = 0;
+        //Freeze player
+        rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
 
         ballAnimator.SetBool("IsStartingJump", false);
         ballAnimator.SetBool("IsJumping", false);
 
-        Collider2D collider = collision.collider;
-        float RectWidth = collider.bounds.size.x;
-        float RectHeight = collider.bounds.size.y;
-        float circleRad = collider.bounds.size.x;
-
-        if (collider != null)
-        {
-            Vector3 contactPoint = collision.contacts[0].point;
-            Vector3 center = collider.bounds.center;
-
-            if (contactPoint.y > center.y && //checks that circle is on top of rectangle
-                (contactPoint.x < center.x + RectWidth / 2 && contactPoint.x > center.x - RectWidth / 2))
-            {
-                stuckToDirections = Direction.Down;
-            }
-            else if (contactPoint.y < center.y &&
-                (contactPoint.x < center.x + RectWidth / 2 && contactPoint.x > center.x - RectWidth / 2))
-            {
-                stuckToDirections = Direction.Up;
-            }
-            else if (contactPoint.x > center.x &&
-                (contactPoint.y < center.y + RectHeight / 2 && contactPoint.y > center.y - RectHeight / 2))
-            {
-                stuckToDirections = Direction.Left;
-            }
-            else if (contactPoint.x < center.x &&
-                (contactPoint.y < center.y + RectHeight / 2 && contactPoint.y > center.y - RectHeight / 2))
-            {
-                stuckToDirections = Direction.Right;
-            } else
-            {
-                stuckToDirections = Direction.Up;
-            }
-
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        //isStuck = false;
+        CheckCollision();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -189,7 +148,33 @@ public class PlayerHandler : MonoBehaviour {
         ball.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
     }
 
-    
+    private void CheckCollision()
+    {
+        if (_transform.position == previousPosition)
+            return;
+
+        directionV = _transform.position - previousPosition;
+        RaycastHit2D hit = Physics2D.Raycast(_transform.position, directionV, circleRadius);
+        if (hit.collider != null)
+        {
+            if (hit.normal.x != 0f)
+            {
+                if (hit.normal.x > 0f)
+                    stuckToDirections = Direction.Left;
+                else
+                    stuckToDirections = Direction.Right;
+            }
+            else if (hit.normal.y != 0f)
+            {
+                if (hit.normal.y > 0f)
+                    stuckToDirections = Direction.Down;
+                else
+                    stuckToDirections = Direction.Up;
+            }
+        }
+
+        previousPosition = _transform.position;
+    }
 }
 
 public enum Direction
