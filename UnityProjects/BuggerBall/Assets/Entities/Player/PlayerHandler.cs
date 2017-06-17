@@ -25,6 +25,8 @@ public class PlayerHandler : MonoBehaviour {
 
     public bool isStuck;
 
+    public bool isAlive = true;
+
     public bool CanJump
     {
         get
@@ -48,6 +50,16 @@ public class PlayerHandler : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+        if(!isAlive)
+        {
+            //Arrest movement
+            rigidBody.velocity = Vector2.zero;
+            rigidBody.gravityScale = 0;
+
+            return;
+        }
+
         SetSpritStuckTo(stuckToDirections);
 
         if(Input.GetMouseButton(0) && isStuck)
@@ -112,9 +124,19 @@ public class PlayerHandler : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        string tag = string.Empty;
+        if (collision.gameObject != null)
+            tag = collision.gameObject.tag;
+
+        if(string.Equals(tag, "NoneStick"))
+        {
+            isStuck = false;
+            return;
+        }
+
         if (isStuck)
             return;
-
+        
         isStuck = true;
 
         //Freeze player
@@ -128,18 +150,30 @@ public class PlayerHandler : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var collectable = collision.gameObject.GetComponent<Collectable>();
-
-        if(collectable != null)
+        string tag = string.Empty;
+        if(collision.gameObject != null)
+            tag = collision.gameObject.tag;
+        
+        if (string.Equals(tag, "Kill", System.StringComparison.InvariantCultureIgnoreCase))
         {
-            Destroy(collectable.gameObject);
-            LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
-            Grow();
+            isAlive = false;
+            ballAnimator.SetBool("IsAlive", false);
+        }
+        else
+        {
+            var collectable = collision.gameObject.GetComponent<Collectable>();
 
-            if(upgradeClips != null && upgradeClips.Length > 0)
-                myAudioSource.clip = upgradeClips[0];
+            if (collectable != null)
+            {
+                Destroy(collectable.gameObject);
+                LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
+                Grow();
 
-            myAudioSource.Play();
+                if (upgradeClips != null && upgradeClips.Length > 0)
+                    myAudioSource.clip = upgradeClips[0];
+
+                myAudioSource.Play();
+            }
         }
     }
 
