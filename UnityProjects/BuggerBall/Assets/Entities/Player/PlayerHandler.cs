@@ -163,7 +163,7 @@ public class PlayerHandler : MonoBehaviour {
             isAlive = false;
             ballAnimator.SetBool("IsAlive", false);
 
-            Invoke("LoseGame", 3);
+            Invoke("LoseGame", 2.5f);
         }
         else
         {
@@ -190,15 +190,22 @@ public class PlayerHandler : MonoBehaviour {
 
     private void Grow()
     {
-        ball.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+        GetComponent<BoxCollider2D>().offset += new Vector2(0, 0.1f);
+        hitLimitDistance += 0.2f;
+        GetComponent<BoxCollider2D>().size += new Vector2(0.2f, 0.2f);
+        ball.transform.localScale += new Vector3(0.3f, 0.3f, 0.3f);
+
+        directionManager.IncreaseMaxJumpPower();
     }
+
+    private float hitLimitDistance = 0.5f;
 
     private void CheckCollision()
     {
-        RaycastHit2D hitUp = Physics2D.Raycast(_transform.position, Vector3.up, 0.5f);
-        RaycastHit2D hitRight = Physics2D.Raycast(_transform.position, Vector3.right, 0.5f);
-        RaycastHit2D hitDown = Physics2D.Raycast(_transform.position, Vector3.down, 0.5f);
-        RaycastHit2D hitLeft = Physics2D.Raycast(_transform.position, Vector3.left, 0.5f);
+        RaycastHit2D hitUp = Physics2D.Raycast(_transform.position, Vector3.up, hitLimitDistance);
+        RaycastHit2D hitRight = Physics2D.Raycast(_transform.position, Vector3.right, hitLimitDistance);
+        RaycastHit2D hitDown = Physics2D.Raycast(_transform.position, Vector3.down, hitLimitDistance);
+        RaycastHit2D hitLeft = Physics2D.Raycast(_transform.position, Vector3.left, hitLimitDistance);
 
         if (hitUp != null && hitUp.collider != null)
             stuckToDirections = Direction.Up;
