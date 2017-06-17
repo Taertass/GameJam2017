@@ -16,6 +16,7 @@ public class PlayerHandler : MonoBehaviour {
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
     private AudioSource myAudioSource;
+    private Direction stuckToDirections = Direction.Down;
 
     //Collision
     public Transform _transform;
@@ -43,10 +44,11 @@ public class PlayerHandler : MonoBehaviour {
         _transform = transform;
     }
 
-    private Direction stuckToDirections = Direction.Down;
-
 	// Update is called once per frame
 	void Update () {
+        if (!LevelManager.Instance.isGameRunning)
+            return;
+
         CheckCollision();
 
         if (!isAlive)
@@ -150,6 +152,8 @@ public class PlayerHandler : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
+
         string tag = string.Empty;
         if(collision.gameObject != null)
             tag = collision.gameObject.tag;
@@ -158,6 +162,8 @@ public class PlayerHandler : MonoBehaviour {
         {
             isAlive = false;
             ballAnimator.SetBool("IsAlive", false);
+
+            Invoke("LoseGame", 3);
         }
         else
         {
@@ -175,6 +181,11 @@ public class PlayerHandler : MonoBehaviour {
                 myAudioSource.Play();
             }
         }
+    }
+
+    private void LoseGame()
+    {
+        LevelManager.Instance.LoseLevel();
     }
 
     private void Grow()
