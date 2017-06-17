@@ -43,6 +43,9 @@ public class PlayerHandler : MonoBehaviour {
 
         CheckCollision();
 
+        if (rigidBody.velocity.magnitude == 0 && !isStuck)
+            SetToBeStuck();
+
         if (!isAlive)
         {
             //Arrest movement
@@ -59,10 +62,13 @@ public class PlayerHandler : MonoBehaviour {
             directionManager.IncreaseCurrentJumpPower();
             ballAnimator.SetBool("IsStartingJump", true);
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && isStuck)
         {
             if (!directionManager.CanJumpDirection())
+            {
+                directionManager.ResetCurrentJumpPower();
                 return;
+            }
 
             isStuck = false;
 
@@ -130,6 +136,15 @@ public class PlayerHandler : MonoBehaviour {
         if (isStuck)
             return;
 
+        SetToBeStuck();
+
+
+
+    }
+
+    private void SetToBeStuck()
+    {
+
         SoundHandler.Instance.PlayImpactClip();
 
         isStuck = true;
@@ -186,7 +201,7 @@ public class PlayerHandler : MonoBehaviour {
         directionManager.IncreaseMaxJumpPower();
     }
 
-    private float hitLimitDistance = 0.5f;
+    private float hitLimitDistance = 0.6f;
 
     private void CheckCollision()
     {
@@ -196,13 +211,25 @@ public class PlayerHandler : MonoBehaviour {
         RaycastHit2D hitLeft = Physics2D.Raycast(_transform.position, Vector3.left, hitLimitDistance);
 
         if (hitUp != null && hitUp.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.up, Color.red, 20, true);
             stuckToDirections = Direction.Up;
+        }
         if (hitRight != null && hitRight.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.right, Color.red, 20, true);
             stuckToDirections = Direction.Right;
+        }
         if (hitDown != null && hitDown.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.down, Color.red, 20, true);
             stuckToDirections = Direction.Down;
+        }
         if (hitLeft != null && hitLeft.collider != null)
+        {
+            //Debug.DrawRay(_transform.position, Vector3.left, Color.red, 20, true);
             stuckToDirections = Direction.Left;
+        }
 
     }
 }
