@@ -4,36 +4,20 @@ using UnityEngine;
 
 public class SmoothFollow2D : MonoBehaviour {
 
-    //offset from the viewport center to fix damping
-    public float m_DampTime = 10f;
-    public Transform m_Target;
-    public float m_XOffset = 0;
-    public float m_YOffset = 0;
+    public float dampTime = 0.15f;
+    private Vector3 velocity = Vector3.zero;
+    public Transform target;
 
-    private float margin = 0.1f;
-
-    void Start()
-    {
-        if (m_Target == null)
-        {
-            m_Target = GameObject.FindGameObjectWithTag("Player").transform;
-        }
-    }
-
+    // Update is called once per frame
     void Update()
     {
-        if (m_Target)
+        if (target)
         {
-            float targetX = m_Target.position.x + m_XOffset;
-            float targetY = m_Target.position.y + m_YOffset;
-
-            if (Mathf.Abs(transform.position.x - targetX) > margin)
-                targetX = Mathf.Lerp(transform.position.x, targetX, 1 / m_DampTime * Time.deltaTime);
-
-            if (Mathf.Abs(transform.position.y - targetY) > margin)
-                targetY = Mathf.Lerp(transform.position.y, targetY, m_DampTime * Time.deltaTime);
-
-            transform.position = new Vector3(targetX, targetY, transform.position.z);
+            Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
+            Vector3 delta = target.position - GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z)); //(new Vector3(0.5, 0.5, point.z));
+            Vector3 destination = transform.position + delta;
+            transform.position = Vector3.SmoothDamp(transform.position, destination, ref velocity, dampTime);
         }
+
     }
 }
