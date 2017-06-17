@@ -6,6 +6,7 @@ public class PlayerHandler : MonoBehaviour {
 
     public GameObject ball;
     public DirectionManager directionManager;
+    public Sprite slimeSprite;
 
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
@@ -35,6 +36,9 @@ public class PlayerHandler : MonoBehaviour {
         _transform = transform;
 
         rigidBody.velocity += Vector2.down;
+
+        //Load slime sprites
+
     }
 
 	// Update is called once per frame
@@ -157,6 +161,9 @@ public class PlayerHandler : MonoBehaviour {
 
         ballAnimator.SetBool("IsStartingJump", false);
         ballAnimator.SetBool("IsJumping", false);
+
+        //Create slime
+        InstantiateSlime(ball.transform.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -194,6 +201,18 @@ public class PlayerHandler : MonoBehaviour {
     private void LoseGame()
     {
         LevelManager.Instance.LoseLevel();
+    }
+
+    private void InstantiateSlime(Vector3 position)
+    {
+        GameObject slime = new GameObject();
+        slime.AddComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = slime.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = slimeSprite;
+
+        spriteRenderer.transform.localScale = new Vector2(0.2f, 0.2f);
+
+        slime.transform.position = position;
     }
 
     private void Grow()
