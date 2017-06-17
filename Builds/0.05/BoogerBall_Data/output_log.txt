@@ -59,3 +59,24 @@ UnloadTime: 23.729643 ms
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 5197.
 Total: 2.450606 ms (FindLiveObjects: 0.543975 ms CreateObjectMapping: 0.201047 ms MarkObjects: 1.685659 ms  DeleteObjects: 0.019319 ms)
 
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 28.144236 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 5197.
+Total: 5.426471 ms (FindLiveObjects: 0.889921 ms CreateObjectMapping: 0.379756 ms MarkObjects: 4.066834 ms  DeleteObjects: 0.088146 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 26.651171 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 5197.
+Total: 3.070049 ms (FindLiveObjects: 0.624877 ms CreateObjectMapping: 0.186557 ms MarkObjects: 2.235068 ms  DeleteObjects: 0.022338 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 47.545017 ms
+
+Unloading 146 unused Assets to reduce memory usage. Loaded Objects now: 332.
+Total: 2.799571 ms (FindLiveObjects: 0.058563 ms CreateObjectMapping: 0.059770 ms MarkObjects: 1.025764 ms  DeleteObjects: 1.654264 ms)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 321c -> priority: 1 
+  Thread -> id: 35dc -> priority: 1 
