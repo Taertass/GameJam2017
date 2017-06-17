@@ -42,30 +42,33 @@ public class PlayerHandler : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
-        
         SetSpritStuckTo(stuckToDirections);
 
         if(Input.GetMouseButton(0) && isStuck)
         {
+            Debug.Log("Starting Jump");
             directionManager.IncreaseCurrentJumpPower();
             ballAnimator.SetBool("IsStartingJump", true);
         }
         else if (Input.GetMouseButtonUp(0) && isStuck)
         {
+            Debug.Log("Jumping");
+
+            jumpStarted = true;
+            isStuck = false;
+            canLand = true;
+
             ballAnimator.SetBool("IsStartingJump", false);
             ballAnimator.SetBool("IsJumping", true);
 
-            //Reenable the gravity on the player
-            rigidBody.gravityScale = 1;
 
             //Perform the jump
             Vector3 jumpDirection = directionManager.GetJumpDirection();
 
             rigidBody.velocity = jumpDirection.normalized * directionManager.GetCurrentJumpPower();
+
             
-            isStuck = false;
-            canLand = true;
+            
             //Reset 
             directionManager.ResetCurrentJumpPower();
 
@@ -73,33 +76,19 @@ public class PlayerHandler : MonoBehaviour {
                 myAudioSource.clip = jumpClips[0];
 
             myAudioSource.Play();
+
+            //Reenable the gravity on the player
+            rigidBody.gravityScale = 1;
         }
         else if (isStuck)
         {
             //Arrest movement
-            rigidBody.velocity = Vector2.zero;
-
-            //Disable the gravity on the player
-            rigidBody.gravityScale = 0;
-
-            if(canLand)
-            {
-                ballAnimator.SetBool("IsStartingJump", false);
-                ballAnimator.SetBool("IsJumping", false);
-
-                if (impactClips != null && impactClips.Length > 0)
-                    myAudioSource.clip = impactClips[0];
-
-                myAudioSource.Play();
-
-               
-            }
-
-            canLand = false;
+            rigidBody.velocity = Vector2.zero;            
         }
     }
 
     bool canLand = false;
+    bool jumpStarted = false;
 
     private void SetSpritStuckTo(Direction direction)
     {
@@ -123,8 +112,25 @@ public class PlayerHandler : MonoBehaviour {
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isStuck)
+            return;
+
+        isStuck = true;
+
+        rigidBody.gravityScale = 0;
+
+        ballAnimator.SetBool("IsStartingJump", false);
+        ballAnimator.SetBool("IsJumping", false);
+
+        Debug.Log("Lading");
+
         Collider2D collider = collision.collider;
         float RectWidth = myCollider.bounds.size.x;
         float RectHeight = myCollider.bounds.size.y;
@@ -156,13 +162,11 @@ public class PlayerHandler : MonoBehaviour {
                 stuckToDirections = Direction.Right;
             }
         }
-
-        isStuck = true;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        isStuck = false;
+        //isStuck = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

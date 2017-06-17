@@ -18,7 +18,6 @@ public class LevelManager : MonoBehaviour {
 
     void Start () {
         instance = this;
-
     }
 	
 	void Update () {
@@ -29,13 +28,17 @@ public class LevelManager : MonoBehaviour {
     {
         var sceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(sceneIndex + 1);
-        Debug.Log(sceneIndex);
     }
 
     public void LoseGameButtonClicked()
     {
         int loseSceenIndex = SceneManager.sceneCountInBuildSettings - 1;
         SceneManager.LoadScene(loseSceenIndex);
-        Debug.Log(loseSceenIndex);
+    }
+
+    public void RetryLevelButtonClicked()
+    {
+        var sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(sceneIndex);
     }
 }
