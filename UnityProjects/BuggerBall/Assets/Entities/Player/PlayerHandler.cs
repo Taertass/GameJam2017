@@ -33,6 +33,8 @@ public class PlayerHandler : MonoBehaviour {
         ballAnimator = ball.GetComponent<Animator>();
 
         _transform = transform;
+
+        rigidBody.velocity += Vector2.down;
     }
 
 	// Update is called once per frame
