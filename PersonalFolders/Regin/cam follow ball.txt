@@ -1,0 +1,6 @@
+function Update () 
+{
+     transform.position = target.position + Vector3(0, lift, distance);
+
+     transform.LookAt (target);
+} 
