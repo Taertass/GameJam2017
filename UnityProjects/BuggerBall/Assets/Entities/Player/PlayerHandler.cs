@@ -9,12 +9,7 @@ public class PlayerHandler : MonoBehaviour {
 
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
-    private Collider2D collider;
-
-    public IsTriggeredHandler leftTrigger;
-    public IsTriggeredHandler topTrigger;
-    public IsTriggeredHandler rightTrigger;
-    public IsTriggeredHandler bottomTrigger;
+    private Collider2D myCollider;
 
     public bool isStuck;
 
@@ -31,7 +26,7 @@ public class PlayerHandler : MonoBehaviour {
         directionManager = GetComponentInChildren<DirectionManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         ballAnimator = ball.GetComponent<Animator>();
-        collider = GetComponent<Collider2D>();
+        myCollider = GetComponent<Collider2D>();
     }
 
     private Direction stuckToDirections = Direction.Down;
@@ -101,8 +96,8 @@ public class PlayerHandler : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D collider = collision.collider;
-        float RectWidth = this.collider.bounds.size.x;
-        float RectHeight = this.collider.bounds.size.y;
+        float RectWidth = myCollider.bounds.size.x;
+        float RectHeight = myCollider.bounds.size.y;
         float circleRad = collider.bounds.size.x;
 
         if (collider != null)
@@ -140,9 +135,21 @@ public class PlayerHandler : MonoBehaviour {
         isStuck = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var collectable = collision.gameObject.GetComponent<Collectable>();
+
+        if(collectable != null)
+        {
+            Destroy(collectable.gameObject);
+            LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
+            Grow();
+        }
+    }
+
     private void Grow()
     {
-        ball.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+        ball.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
     }
 
     

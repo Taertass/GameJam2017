@@ -5,9 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
-	void Start () {
-		
-	}
+    private static LevelManager instance;
+    public static LevelManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    
+    public int Score;
+
+    void Start () {
+        instance = this;
+
+    }
 	
 	void Update () {
 		

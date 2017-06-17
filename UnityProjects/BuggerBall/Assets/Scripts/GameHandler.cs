@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class GameHandler : MonoBehaviour {
 
-    private GameHandler instance;
-    public GameHandler Instance
+    private static GameHandler instance;
+    public static GameHandler Instance
     {
         get
         {
             return instance;
         }
     }
-	
+
+
 	void Start () {
         instance = this;
         DontDestroyOnLoad(this);
