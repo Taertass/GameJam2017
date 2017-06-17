@@ -15,7 +15,6 @@ public class PlayerHandler : MonoBehaviour {
 
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
-    private Collider2D myCollider;
     private AudioSource myAudioSource;
 
 
@@ -34,7 +33,6 @@ public class PlayerHandler : MonoBehaviour {
         directionManager = GetComponentInChildren<DirectionManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         ballAnimator = ball.GetComponent<Animator>();
-        myCollider = GetComponent<Collider2D>();
         myAudioSource = GetComponent<AudioSource>();
     }
 
@@ -46,13 +44,11 @@ public class PlayerHandler : MonoBehaviour {
 
         if(Input.GetMouseButton(0) && isStuck)
         {
-            Debug.Log("Starting Jump");
             directionManager.IncreaseCurrentJumpPower();
             ballAnimator.SetBool("IsStartingJump", true);
         }
         else if (Input.GetMouseButtonUp(0) && isStuck)
         {
-            Debug.Log("Jumping");
 
             jumpStarted = true;
             isStuck = false;
@@ -129,11 +125,9 @@ public class PlayerHandler : MonoBehaviour {
         ballAnimator.SetBool("IsStartingJump", false);
         ballAnimator.SetBool("IsJumping", false);
 
-        Debug.Log("Lading");
-
         Collider2D collider = collision.collider;
-        float RectWidth = myCollider.bounds.size.x;
-        float RectHeight = myCollider.bounds.size.y;
+        float RectWidth = collider.bounds.size.x;
+        float RectHeight = collider.bounds.size.y;
         float circleRad = collider.bounds.size.x;
 
         if (collider != null)
@@ -160,7 +154,11 @@ public class PlayerHandler : MonoBehaviour {
                 (contactPoint.y < center.y + RectHeight / 2 && contactPoint.y > center.y - RectHeight / 2))
             {
                 stuckToDirections = Direction.Right;
+            } else
+            {
+                stuckToDirections = Direction.Up;
             }
+
         }
     }
 
