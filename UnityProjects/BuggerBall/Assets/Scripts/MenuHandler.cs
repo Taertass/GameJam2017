@@ -11,6 +11,8 @@ public class MenuHandler : MonoBehaviour {
     {
         if(versionText != null)
             versionText.text = "v " + Application.version;
+
+        SoundHandler.Instance.PlayMenuMusic();
     }
 
     public void StartGameButtonClicked()

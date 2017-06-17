@@ -65,7 +65,7 @@ public class DirectionManager : MonoBehaviour {
 
     internal bool CanJumpDirection()
     {
-        return !Physics.Raycast(playerHandler._transform.position, Vector3.down, 3.0f);
+        return !Physics.Raycast(playerHandler._transform.position, Vector3.down, 1.0f);
     }
 
     public void UpdateLocalScaleWithJumpPower()
@@ -87,5 +87,10 @@ public class DirectionManager : MonoBehaviour {
     public Vector3 GetJumpDirection()
     {
         return jumpDirection;
+    }
+
+    public void IncreaseMaxJumpPower()
+    {
+        maxJumpPower += 3f;
     }
 }
