@@ -49,6 +49,9 @@ public class PlayerHandler : MonoBehaviour {
 	void Update () {
         CheckCollision();
 
+        if (rigidBody.velocity.magnitude == 0)
+            SetToBeStuck();
+
         if (!isAlive)
         {
             //Arrest movement
@@ -65,10 +68,13 @@ public class PlayerHandler : MonoBehaviour {
             directionManager.IncreaseCurrentJumpPower();
             ballAnimator.SetBool("IsStartingJump", true);
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && isStuck)
         {
             if (!directionManager.CanJumpDirection())
+            {
+                directionManager.ResetCurrentJumpPower();
                 return;
+            }
 
             isStuck = false;
 
@@ -137,7 +143,14 @@ public class PlayerHandler : MonoBehaviour {
 
         if (isStuck)
             return;
-        
+        SetToBeStuck();
+
+
+
+    }
+
+    private void SetToBeStuck()
+    {
         isStuck = true;
 
         //Freeze player
@@ -145,7 +158,6 @@ public class PlayerHandler : MonoBehaviour {
 
         ballAnimator.SetBool("IsStartingJump", false);
         ballAnimator.SetBool("IsJumping", false);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

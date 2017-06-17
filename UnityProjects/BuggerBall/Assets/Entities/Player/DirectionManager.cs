@@ -65,7 +65,13 @@ public class DirectionManager : MonoBehaviour {
 
     internal bool CanJumpDirection()
     {
-        return !Physics.Raycast(playerHandler._transform.position, Vector3.down, 3.0f);
+        RaycastHit2D hit = Physics2D.Raycast(playerHandler.ball.transform.position, GetJumpDirection(), 0.1f);
+        Debug.DrawRay(playerHandler.ball.transform.position, GetJumpDirection(), Color.red, 20, true);
+        //Debug.Log(hit.transform);
+        //Debug.Log(hit.transform.gameObject.tag);
+        bool canJump = hit.transform == null || hit.transform.gameObject.tag == "Player";
+
+        return canJump;
     }
 
     public void UpdateLocalScaleWithJumpPower()
