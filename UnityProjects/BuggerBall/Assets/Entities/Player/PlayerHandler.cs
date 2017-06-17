@@ -33,18 +33,13 @@ public class PlayerHandler : MonoBehaviour {
         
         
     }
-	
+
+    private Direction stuckToDirections = Direction.Down;
+
 	// Update is called once per frame
 	void Update () {
-        //Lock rotation
-        transform.rotation = Quaternion.identity;
 
-        var mousePosition = Input.mousePosition;
-        var ballPosition = ball.transform.position;
-        var pos = Camera.main.WorldToScreenPoint(transform.position);
-        var dir = Input.mousePosition - pos;
-        var angle = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg) - 90;
-        directionManager.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        SetSpritStuckTo(stuckToDirections);
 
         if(Input.GetMouseButton(0) && isStuck)
         {
@@ -60,7 +55,9 @@ public class PlayerHandler : MonoBehaviour {
             rigidBody.gravityScale = 1;
 
             //Perform the jump
-            rigidBody.velocity = dir.normalized * directionManager.GetCurrentJumpPower();
+            Vector3 jumpDirection = directionManager.GetJumpDirection();
+
+            rigidBody.velocity = jumpDirection.normalized * directionManager.GetCurrentJumpPower();
             
             isStuck = false;
 
@@ -79,8 +76,39 @@ public class PlayerHandler : MonoBehaviour {
         }
     }
 
+    private void SetSpritStuckTo(Direction direction)
+    {
+        float angle = 0;
+        switch(direction)
+        {
+            case Direction.Down:
+                angle = 0;
+                break;
+            case Direction.Left:
+                angle = 270;
+                break;
+            case Direction.Up:
+                angle = 180;
+                break;
+            case Direction.Right:
+                angle = 90;
+                break;
+        }
+
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        var direction = ReturnDirection(this.gameObject, collision.gameObject);
+        //if(direction.y < 0)
+        //{
+        //    stuckToDirections = Direction.Up;
+        //} else if(direction > 0)
+        //{
+        //    stuckToDirections
+        //}
+        Debug.Log(direction);
         isStuck = true;
     }
 
@@ -93,4 +121,43 @@ public class PlayerHandler : MonoBehaviour {
     {
         ball.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
     }
+
+    private Direction ReturnDirection(GameObject Object, GameObject ObjectHit)
+    {
+        Direction hitDirection = Direction.Down;
+        RaycastHit MyRayHit;
+        Vector3 direction = (Object.transform.position - ObjectHit.transform.position).normalized;
+        Ray MyRay = new Ray(ObjectHit.transform.position, direction);
+
+        
+
+        if (Physics.Raycast(MyRay, out MyRayHit))
+        {
+            
+            if (MyRayHit.collider != null)
+            {
+                Vector3 MyNormal = MyRayHit.normal;
+                MyNormal = MyRayHit.transform.TransformDirection(MyNormal);
+
+                if (MyNormal == MyRayHit.transform.up) { hitDirection = Direction.Up; }
+                if (MyNormal == -MyRayHit.transform.up) { hitDirection = Direction.Down; }
+                if (MyNormal == MyRayHit.transform.right) { hitDirection = Direction.Right; }
+                if (MyNormal == -MyRayHit.transform.right) { hitDirection = Direction.Left; }
+            }
+        }
+
+        Debug.Log(direction);
+        Debug.Log(MyRay);
+        Debug.Log(hitDirection);
+
+        return hitDirection;
+    }
+}
+
+public enum Direction
+{
+    Up,
+    Right,
+    Down,
+    Left
 }
