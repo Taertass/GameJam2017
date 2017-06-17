@@ -23,7 +23,13 @@ public class IntroSceenHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log(Time.time - lastSlideTime);
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            var nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+            SceneManager.LoadScene(nextLevelIndex);
+            return;
+        }
+
         if(Time.time - lastSlideTime >= timePrSlide)
         {
             var areMoreSlidsToShow = currentSlideIndex + 1 < slids.Length;
