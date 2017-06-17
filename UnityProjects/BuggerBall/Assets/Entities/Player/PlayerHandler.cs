@@ -43,7 +43,7 @@ public class PlayerHandler : MonoBehaviour {
 
         CheckCollision();
 
-        if (rigidBody.velocity.magnitude == 0)
+        if (rigidBody.velocity.magnitude == 0 && !isStuck)
             SetToBeStuck();
 
         if (!isAlive)
