@@ -7,9 +7,17 @@ public class PlayerHandler : MonoBehaviour {
     public GameObject ball;
     public DirectionManager directionManager;
 
+    public AudioClip[] jumpClips;
+    public AudioClip[] impactClips;
+    public AudioClip[] impactNoneStickClips;
+    public AudioClip[] hurtClips;
+    public AudioClip[] upgradeClips;
+
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
     private Collider2D myCollider;
+    private AudioSource myAudioSource;
+
 
     public bool isStuck;
 
@@ -27,6 +35,7 @@ public class PlayerHandler : MonoBehaviour {
         rigidBody = GetComponent<Rigidbody2D>();
         ballAnimator = ball.GetComponent<Animator>();
         myCollider = GetComponent<Collider2D>();
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     private Direction stuckToDirections = Direction.Down;
@@ -34,6 +43,7 @@ public class PlayerHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        
         SetSpritStuckTo(stuckToDirections);
 
         if(Input.GetMouseButton(0) && isStuck)
@@ -55,21 +65,41 @@ public class PlayerHandler : MonoBehaviour {
             rigidBody.velocity = jumpDirection.normalized * directionManager.GetCurrentJumpPower();
             
             isStuck = false;
-
+            canLand = true;
             //Reset 
             directionManager.ResetCurrentJumpPower();
+
+            if (jumpClips != null && jumpClips.Length > 0)
+                myAudioSource.clip = jumpClips[0];
+
+            myAudioSource.Play();
         }
         else if (isStuck)
         {
-            ballAnimator.SetBool("IsStartingJump", false);
-            ballAnimator.SetBool("IsJumping", false);
             //Arrest movement
             rigidBody.velocity = Vector2.zero;
 
             //Disable the gravity on the player
             rigidBody.gravityScale = 0;
+
+            if(canLand)
+            {
+                ballAnimator.SetBool("IsStartingJump", false);
+                ballAnimator.SetBool("IsJumping", false);
+
+                if (impactClips != null && impactClips.Length > 0)
+                    myAudioSource.clip = impactClips[0];
+
+                myAudioSource.Play();
+
+               
+            }
+
+            canLand = false;
         }
     }
+
+    bool canLand = false;
 
     private void SetSpritStuckTo(Direction direction)
     {
@@ -144,6 +174,11 @@ public class PlayerHandler : MonoBehaviour {
             Destroy(collectable.gameObject);
             LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
             Grow();
+
+            if(upgradeClips != null && upgradeClips.Length > 0)
+                myAudioSource.clip = upgradeClips[0];
+
+            myAudioSource.Play();
         }
     }
 
