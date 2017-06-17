@@ -7,15 +7,8 @@ public class PlayerHandler : MonoBehaviour {
     public GameObject ball;
     public DirectionManager directionManager;
 
-    public AudioClip[] jumpClips;
-    public AudioClip[] impactClips;
-    public AudioClip[] impactNoneStickClips;
-    public AudioClip[] hurtClips;
-    public AudioClip[] upgradeClips;
-
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
-    private AudioSource myAudioSource;
     private Direction stuckToDirections = Direction.Down;
 
     //Collision
@@ -39,7 +32,6 @@ public class PlayerHandler : MonoBehaviour {
         directionManager = GetComponentInChildren<DirectionManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         ballAnimator = ball.GetComponent<Animator>();
-        myAudioSource = GetComponent<AudioSource>();
 
         _transform = transform;
     }
@@ -88,10 +80,7 @@ public class PlayerHandler : MonoBehaviour {
             //Reset 
             directionManager.ResetCurrentJumpPower();
 
-            if (jumpClips != null && jumpClips.Length > 0)
-                myAudioSource.clip = jumpClips[0];
-
-            myAudioSource.Play();
+            SoundHandler.Instance.PlayJumpClip();
 
             //Reenable movement on the player
             rigidBody.constraints = RigidbodyConstraints2D.None;
@@ -133,13 +122,16 @@ public class PlayerHandler : MonoBehaviour {
 
         if(string.Equals(tag, "NoneStick"))
         {
+            SoundHandler.Instance.PlayNoneStickImpactClip();
             isStuck = false;
             return;
         }
 
         if (isStuck)
             return;
-        
+
+        SoundHandler.Instance.PlayImpactClip();
+
         isStuck = true;
 
         //Freeze player
@@ -147,13 +139,10 @@ public class PlayerHandler : MonoBehaviour {
 
         ballAnimator.SetBool("IsStartingJump", false);
         ballAnimator.SetBool("IsJumping", false);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-
         string tag = string.Empty;
         if(collision.gameObject != null)
             tag = collision.gameObject.tag;
@@ -164,6 +153,8 @@ public class PlayerHandler : MonoBehaviour {
             ballAnimator.SetBool("IsAlive", false);
 
             Invoke("LoseGame", 2.5f);
+
+            SoundHandler.Instance.PlayHurtClip();
         }
         else
         {
@@ -175,10 +166,7 @@ public class PlayerHandler : MonoBehaviour {
                 LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
                 Grow();
 
-                if (upgradeClips != null && upgradeClips.Length > 0)
-                    myAudioSource.clip = upgradeClips[0];
-
-                myAudioSource.Play();
+                SoundHandler.Instance.PlayUpgradeSound();
             }
         }
     }
