@@ -7,15 +7,9 @@ public class PlayerHandler : MonoBehaviour {
     public GameObject ball;
     public DirectionManager directionManager;
 
-    public AudioClip[] jumpClips;
-    public AudioClip[] impactClips;
-    public AudioClip[] impactNoneStickClips;
-    public AudioClip[] hurtClips;
-    public AudioClip[] upgradeClips;
-
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
-    private AudioSource myAudioSource;
+    private Direction stuckToDirections = Direction.Down;
 
     //Collision
     public Transform _transform;
@@ -38,15 +32,15 @@ public class PlayerHandler : MonoBehaviour {
         directionManager = GetComponentInChildren<DirectionManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         ballAnimator = ball.GetComponent<Animator>();
-        myAudioSource = GetComponent<AudioSource>();
 
         _transform = transform;
     }
 
-    private Direction stuckToDirections = Direction.Down;
-
 	// Update is called once per frame
 	void Update () {
+        if (!LevelManager.Instance.isGameRunning)
+            return;
+
         CheckCollision();
 
         if (rigidBody.velocity.magnitude == 0)
@@ -92,10 +86,7 @@ public class PlayerHandler : MonoBehaviour {
             //Reset 
             directionManager.ResetCurrentJumpPower();
 
-            if (jumpClips != null && jumpClips.Length > 0)
-                myAudioSource.clip = jumpClips[0];
-
-            myAudioSource.Play();
+            SoundHandler.Instance.PlayJumpClip();
 
             //Reenable movement on the player
             rigidBody.constraints = RigidbodyConstraints2D.None;
@@ -137,12 +128,14 @@ public class PlayerHandler : MonoBehaviour {
 
         if(string.Equals(tag, "NoneStick"))
         {
+            SoundHandler.Instance.PlayNoneStickImpactClip();
             isStuck = false;
             return;
         }
 
         if (isStuck)
             return;
+
         SetToBeStuck();
 
 
@@ -151,6 +144,9 @@ public class PlayerHandler : MonoBehaviour {
 
     private void SetToBeStuck()
     {
+
+        SoundHandler.Instance.PlayImpactClip();
+
         isStuck = true;
 
         //Freeze player
@@ -170,6 +166,10 @@ public class PlayerHandler : MonoBehaviour {
         {
             isAlive = false;
             ballAnimator.SetBool("IsAlive", false);
+
+            Invoke("LoseGame", 2.5f);
+
+            SoundHandler.Instance.PlayHurtClip();
         }
         else
         {
@@ -181,25 +181,34 @@ public class PlayerHandler : MonoBehaviour {
                 LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
                 Grow();
 
-                if (upgradeClips != null && upgradeClips.Length > 0)
-                    myAudioSource.clip = upgradeClips[0];
-
-                myAudioSource.Play();
+                SoundHandler.Instance.PlayUpgradeSound();
             }
         }
     }
 
+    private void LoseGame()
+    {
+        LevelManager.Instance.LoseLevel();
+    }
+
     private void Grow()
     {
-        ball.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+        GetComponent<BoxCollider2D>().offset += new Vector2(0, 0.1f);
+        hitLimitDistance += 0.2f;
+        GetComponent<BoxCollider2D>().size += new Vector2(0.2f, 0.2f);
+        ball.transform.localScale += new Vector3(0.3f, 0.3f, 0.3f);
+
+        directionManager.IncreaseMaxJumpPower();
     }
+
+    private float hitLimitDistance = 0.5f;
 
     private void CheckCollision()
     {
-        RaycastHit2D hitUp = Physics2D.Raycast(_transform.position, Vector3.up, 0.5f);
-        RaycastHit2D hitRight = Physics2D.Raycast(_transform.position, Vector3.right, 0.5f);
-        RaycastHit2D hitDown = Physics2D.Raycast(_transform.position, Vector3.down, 0.5f);
-        RaycastHit2D hitLeft = Physics2D.Raycast(_transform.position, Vector3.left, 0.5f);
+        RaycastHit2D hitUp = Physics2D.Raycast(_transform.position, Vector3.up, hitLimitDistance);
+        RaycastHit2D hitRight = Physics2D.Raycast(_transform.position, Vector3.right, hitLimitDistance);
+        RaycastHit2D hitDown = Physics2D.Raycast(_transform.position, Vector3.down, hitLimitDistance);
+        RaycastHit2D hitLeft = Physics2D.Raycast(_transform.position, Vector3.left, hitLimitDistance);
 
         if (hitUp != null && hitUp.collider != null)
             stuckToDirections = Direction.Up;
