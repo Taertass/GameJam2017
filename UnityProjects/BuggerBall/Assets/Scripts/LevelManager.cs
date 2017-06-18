@@ -99,7 +99,7 @@ public class LevelManager : MonoBehaviour {
         sb.AppendLine("Ah, well done! That was the last of the globs on this stage.");
         sb.AppendLine("  * Proceed to the exit");
 
-        OverlayGuiHandler.Instance.ShowMessage(sb.ToString());
+        OverlayGuiHandler.Instance.ShowMessage(sb.ToString(), 5f);
     }
 
     private bool isPrintNotEnoughOrbsCollectedMessage = false;
@@ -114,7 +114,7 @@ public class LevelManager : MonoBehaviour {
         sb.AppendLine("You haven’t collected enough globules you fool!");
         sb.AppendLine("  * Come back when you have found and collected all the globs in this stage.");
 
-        OverlayGuiHandler.Instance.ShowMessage(sb.ToString());
+        OverlayGuiHandler.Instance.ShowMessage(sb.ToString(), 6f);
     }
 
     public void LoseLevel()
