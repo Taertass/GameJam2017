@@ -33,6 +33,12 @@ public class SoundHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if(instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+            
         instance = this;
         var audioSources = GetComponents<AudioSource>();
 
@@ -89,13 +95,19 @@ public class SoundHandler : MonoBehaviour {
 
     public void PlayMenuMusic()
     {
-        if(menuMusicClip != null)
+        playingMusicForLevel = 0;
+
+        if (menuMusicClip != null)
         {
             myAudioSource2.clip = menuMusicClip;
             myAudioSource2.loop = true;
 
+            if (myAudioSource2.isPlaying)
+                myAudioSource2.Stop();
+
             if (!myAudioSource2.isPlaying)
                 myAudioSource2.Play();
+
         }
         else
         {
@@ -105,6 +117,8 @@ public class SoundHandler : MonoBehaviour {
 
     public void PlayIntroSceneMusic()
     {
+        playingMusicForLevel = 1;
+
         if (menuMusicClip != null)
         {
             myAudioSource2.clip = introSceneMusicClip;
