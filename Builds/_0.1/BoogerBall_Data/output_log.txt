@@ -1,0 +1,79 @@
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA Quadro M1000M (ID=0x13b1)
+    Vendor:   NVIDIA
+    VRAM:     2017 MB
+    Driver:   22.21.13.8205
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.036 seconds
+Platform assembly: D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\bcgit\GameJam2017\Builds\_0.1\BoogerBall_Data\Managed\System.dll (this message is harmless)
+desktop: 2560x1440 120Hz; virtual: 4480x1440 at -1920,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 2.028741 ms
+Could not load GameData from file ex System.IO.IsolatedStorage.IsolatedStorageException: Could not find file "D:\bcgit\GameJam2017\Builds\_0.1\GameData.json".
+  at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, Boolean anonymous, FileOptions options) [0x00000] in <filename unknown>:0 
+  at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share) [0x00000] in <filename unknown>:0 
+  at System.IO.File.OpenRead (System.String path) [0x00000] in <filename unknown>:0 
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize) [0x00000] in <filename unknown>:0 
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding) [0x00000] in <filename unknown>:0 
+  at System.IO.File.ReadAllText (System.String path, System.Text.Encoding encoding) [0x00000] in <filename unknown>:0 
+  at System.IO.File.ReadAllText (System.String path) [0x00000] in <filename unknown>:0 
+  at GameDataService..ctor () [0x00000] in <filename unknown>:0 
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.659724 ms
+
+Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 321.
+Total: 0.390040 ms (FindLiveObjects: 0.041156 ms CreateObjectMapping: 0.055126 ms MarkObjects: 0.254867 ms  DeleteObjects: 0.037758 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.745344 ms
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 921.
+Total: 1.131231 ms (FindLiveObjects: 0.118560 ms CreateObjectMapping: 0.095905 ms MarkObjects: 0.862016 ms  DeleteObjects: 0.053616 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.482382 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1683.
+Total: 0.864282 ms (FindLiveObjects: 0.112519 ms CreateObjectMapping: 0.072873 ms MarkObjects: 0.666807 ms  DeleteObjects: 0.011705 ms)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.657791 ms
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 1365.
+Total: 0.751385 ms (FindLiveObjects: 0.092507 ms CreateObjectMapping: 0.047952 ms MarkObjects: 0.596577 ms  DeleteObjects: 0.013970 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.436151 ms
+
+Unloading 156 unused Assets to reduce memory usage. Loaded Objects now: 320.
+Total: 1.191267 ms (FindLiveObjects: 0.034737 ms CreateObjectMapping: 0.028318 ms MarkObjects: 0.314524 ms  DeleteObjects: 0.812931 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.452719 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 435.
+Total: 0.496518 ms (FindLiveObjects: 0.038135 ms CreateObjectMapping: 0.024165 ms MarkObjects: 0.424400 ms  DeleteObjects: 0.008684 ms)
+
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 181b0 -> priority: 1 
+  Thread -> id: 184fc -> priority: 1 
+  Thread -> id: d66c -> priority: 1 
+  Thread -> id: 186e4 -> priority: 1 
