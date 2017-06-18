@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour {
 
     public LevelData CurrentLevelData { get; private set; }
 
-    private float startTime;
+    public float startTime;
     private int levelNumber;
 
     void Start ()
@@ -39,14 +39,17 @@ public class LevelManager : MonoBehaviour {
             CurrentLevelData = GameHandler.Instance.CurrentGameData.GetLevelDataForLevelNumber(levelNumber);
         else
             CurrentLevelData = new LevelData();
+
     }
 	
 	void Update () {
-		
-	}
+    }
 
     public void TryAndWinCheck()
     {
+        if (!isGameRunning)
+            return;
+
         if(Score >= ScoreNeededToWin)
         {
             if (CurrentLevelData != null)

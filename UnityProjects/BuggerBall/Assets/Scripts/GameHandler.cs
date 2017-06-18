@@ -132,6 +132,7 @@ public class GameData : System.Object
         LevelData foundLevelData = LevelDatas.FirstOrDefault(ld => ld.LevelNumber == levelNumber);
         if(foundLevelData == null)
         {
+            Debug.Log("Created data for level " + levelNumber);
             foundLevelData = new LevelData()
             {
                 LevelNumber = levelNumber,

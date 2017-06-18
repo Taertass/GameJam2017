@@ -8,6 +8,7 @@ public class OverlayGuiHandler : MonoBehaviour {
 
     public UnityEngine.UI.Text scoreText;
     public UnityEngine.UI.Text levelText;
+    public UnityEngine.UI.Text timeText;
 
     public GameObject escapePanel;
     public GameObject deathPanel;
@@ -74,9 +75,30 @@ public class OverlayGuiHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        scoreText.text = string.Format("Score  {0} of {1}", LevelManager.Instance.Score, LevelManager.Instance.ScoreNeededToWin);
+        scoreText.text = string.Format("Boogers  {0} of {1}", LevelManager.Instance.Score, LevelManager.Instance.ScoreNeededToWin);
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(timeText != null)
+        {
+            var time = 0f;
+            if(GameHandler.Instance != null && LevelManager.Instance != null)
+            {
+                var tt = GameHandler.Instance.CurrentGameData.GetTotalTime();
+                var cpt = 0f;
+                var timeElapsedForPlay = 0f;
+                if(LevelManager.Instance.isGameRunning)
+                {
+                    cpt = LevelManager.Instance.CurrentLevelData.CurrentPlayTime;
+                    timeElapsedForPlay = (Time.time - LevelManager.Instance.startTime);
+                }
+
+                time = tt + cpt + timeElapsedForPlay;
+            }
+            
+            timeText.text = string.Format("Time: {0:N}", time);
+        }
+            
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if(isShowingEscapePane)
             {
