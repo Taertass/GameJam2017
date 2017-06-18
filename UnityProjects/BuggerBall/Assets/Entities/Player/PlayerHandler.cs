@@ -6,6 +6,8 @@ public class PlayerHandler : MonoBehaviour {
 
     public GameObject ball;
     public DirectionManager directionManager;
+    public Sprite slimeSpriteUpDown;
+    public Sprite slimeSpriteLeftRight;
 
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
@@ -13,8 +15,7 @@ public class PlayerHandler : MonoBehaviour {
 
     //Collision
     public Transform _transform;
-
-
+    
     public bool isStuck;
 
     public bool isAlive = true;
@@ -34,6 +35,11 @@ public class PlayerHandler : MonoBehaviour {
         ballAnimator = ball.GetComponent<Animator>();
 
         _transform = transform;
+
+        rigidBody.velocity += Vector2.down;
+
+        //Load slime sprites
+
     }
 
 	// Update is called once per frame
@@ -86,7 +92,8 @@ public class PlayerHandler : MonoBehaviour {
             //Reset 
             directionManager.ResetCurrentJumpPower();
 
-            SoundHandler.Instance.PlayJumpClip();
+            if(SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayJumpClip();
 
             //Reenable movement on the player
             rigidBody.constraints = RigidbodyConstraints2D.None;
@@ -128,7 +135,8 @@ public class PlayerHandler : MonoBehaviour {
 
         if(string.Equals(tag, "NoneStick"))
         {
-            SoundHandler.Instance.PlayNoneStickImpactClip();
+            if (SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayNoneStickImpactClip();
             isStuck = false;
             return;
         }
@@ -144,8 +152,8 @@ public class PlayerHandler : MonoBehaviour {
 
     private void SetToBeStuck()
     {
-
-        SoundHandler.Instance.PlayImpactClip();
+        if(SoundHandler.Instance != null)
+            SoundHandler.Instance.PlayImpactClip();
 
         isStuck = true;
 
@@ -154,6 +162,9 @@ public class PlayerHandler : MonoBehaviour {
 
         ballAnimator.SetBool("IsStartingJump", false);
         ballAnimator.SetBool("IsJumping", false);
+
+        //Create slime
+        InstantiateSlime(ball.transform.position, stuckToDirections);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -169,7 +180,8 @@ public class PlayerHandler : MonoBehaviour {
 
             Invoke("LoseGame", 2.5f);
 
-            SoundHandler.Instance.PlayHurtClip();
+            if (SoundHandler.Instance != null)
+                SoundHandler.Instance.PlayHurtClip();
         }
         else
         {
@@ -181,7 +193,8 @@ public class PlayerHandler : MonoBehaviour {
                 LevelManager.Instance.Score = LevelManager.Instance.Score + 1;
                 Grow();
 
-                SoundHandler.Instance.PlayUpgradeSound();
+                if (SoundHandler.Instance != null)
+                    SoundHandler.Instance.PlayUpgradeSound();
             }
         }
     }
@@ -189,6 +202,36 @@ public class PlayerHandler : MonoBehaviour {
     private void LoseGame()
     {
         LevelManager.Instance.LoseLevel();
+    }
+
+    private void InstantiateSlime(Vector3 position, Direction direction)
+    {
+        GameObject slime = new GameObject();
+        slime.AddComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = slime.GetComponent<SpriteRenderer>();
+        slime.transform.position = position;
+        slime.transform.localScale = new Vector3(1.5f, 1.5f);
+
+        if (direction == Direction.Up || direction == Direction.Down)
+        {
+            spriteRenderer.sprite = slimeSpriteUpDown;
+            slime.transform.position = new Vector3(position.x, position.y - 0.15f);
+        } else
+        {
+            spriteRenderer.sprite = slimeSpriteLeftRight;
+
+
+            if (direction == Direction.Right)
+            {
+                slime.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+                slime.transform.position = new Vector3(position.x -= 0.15f, position.y);
+            }
+            else if (direction == Direction.Left)
+            {
+                slime.transform.position = new Vector3(position.x += 0.15f, position.y);
+                slime.transform.rotation = Quaternion.AngleAxis(270, Vector3.forward);
+            }
+        }
     }
 
     private void Grow()

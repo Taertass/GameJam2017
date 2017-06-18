@@ -14,6 +14,10 @@ public class SoundHandler : MonoBehaviour {
     public AudioClip[] upgradeClips;
     public AudioClip[] musicClips;
 
+    public AudioClip menuMusicClip;
+
+    public AudioClip introSceneMusicClip;
+
     private AudioSource myAudioSource;
     private AudioSource myAudioSource2;
 
@@ -29,6 +33,12 @@ public class SoundHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if(instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+            
         instance = this;
         var audioSources = GetComponents<AudioSource>();
 
@@ -48,7 +58,15 @@ public class SoundHandler : MonoBehaviour {
 
     public void PlayMusicForLevel(int levelNumber)
     {
-        PlayRandomTrack();
+        if(levelNumber == 1)
+        {
+            PlayIntroSceneMusic();
+        }
+        else
+        {
+            PlayRandomTrack();
+        }
+        
     }
 
     private void PlayRandomTrack()
@@ -56,6 +74,8 @@ public class SoundHandler : MonoBehaviour {
         var clip = GetRandomClip(musicClips);
         if (clip != null)
             myAudioSource2.clip = clip;
+
+        myAudioSource2.loop = false;
         if (!myAudioSource2.isPlaying)
             myAudioSource2.Play();
     }
@@ -75,7 +95,42 @@ public class SoundHandler : MonoBehaviour {
 
     public void PlayMenuMusic()
     {
-        PlayRandomTrack();
+        playingMusicForLevel = 0;
+
+        if (menuMusicClip != null)
+        {
+            myAudioSource2.clip = menuMusicClip;
+            myAudioSource2.loop = true;
+
+            if (myAudioSource2.isPlaying)
+                myAudioSource2.Stop();
+
+            if (!myAudioSource2.isPlaying)
+                myAudioSource2.Play();
+
+        }
+        else
+        {
+            PlayRandomTrack();
+        }
+    }
+
+    public void PlayIntroSceneMusic()
+    {
+        playingMusicForLevel = 1;
+
+        if (menuMusicClip != null)
+        {
+            myAudioSource2.clip = introSceneMusicClip;
+            myAudioSource2.loop = true;
+
+            if (!myAudioSource2.isPlaying)
+                myAudioSource2.Play();
+        }
+        else
+        {
+            PlayRandomTrack();
+        }
     }
 
     public void PlayUpgradeSound()

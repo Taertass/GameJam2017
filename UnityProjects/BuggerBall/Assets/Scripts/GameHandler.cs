@@ -15,6 +15,12 @@ public class GameHandler : MonoBehaviour {
 
 
 	void Start () {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+
         instance = this;
         DontDestroyOnLoad(this);
 	}

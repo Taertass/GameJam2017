@@ -21,9 +21,17 @@ public class LevelManager : MonoBehaviour {
     public bool isGameRunning = true;
 
     void Start () {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+
         instance = this;
         isGameRunning = true;
-        SoundHandler.Instance.PlayMusicForLevel(SceneManager.GetActiveScene().buildIndex);
+
+        if(SoundHandler.Instance != null)
+            SoundHandler.Instance.PlayMusicForLevel(SceneManager.GetActiveScene().buildIndex - 1);
     }
 	
 	void Update () {
