@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,11 +19,13 @@ public class LevelManager : MonoBehaviour {
     public int Score;
     public int ScoreNeededToWin;
 
+    public string levelName;
+
     public bool isGameRunning = true;
 
     public LevelData CurrentLevelData { get; private set; }
 
-    private float startTime;
+    public float startTime;
     private int levelNumber;
 
     void Start ()
@@ -39,14 +42,18 @@ public class LevelManager : MonoBehaviour {
             CurrentLevelData = GameHandler.Instance.CurrentGameData.GetLevelDataForLevelNumber(levelNumber);
         else
             CurrentLevelData = new LevelData();
+
+        Invoke("PrintStartOrders", 0.1f);
     }
 	
 	void Update () {
-		
-	}
+    }
 
     public void TryAndWinCheck()
     {
+        if (!isGameRunning)
+            return;
+
         if(Score >= ScoreNeededToWin)
         {
             if (CurrentLevelData != null)
@@ -58,6 +65,56 @@ public class LevelManager : MonoBehaviour {
             OverlayGuiHandler.Instance.ShowWinPanel();
             isGameRunning = false;
         }
+        else
+        {
+            PrintNotEnoughOrbsCollectedMessage();
+        }
+    }
+
+    public void PrintStartOrders()
+    {
+        //ONLY FIRST TIME
+
+        if(CurrentLevelData.CurrentPlayTime == 0)
+        {
+            if(levelNumber == 1)
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("Now my un-willing minion! You must scale a series of obstacles, in the search of more snot-globules. Don’t worry about how they got there, they are definitely not the sad remains of previous test-subjects!");
+                sb.AppendLine("  * Collect all the green globs in each level, before continuing to the exit");
+                if(OverlayGuiHandler.Instance != null)
+                    OverlayGuiHandler.Instance.ShowMessage(sb.ToString(), 10f);
+            }
+        }
+    }
+
+    private bool isPrintCollectedLasterOrbMessage = false;
+    public void PrintCollectedLasterOrbMessage()
+    {
+        if (isPrintCollectedLasterOrbMessage)
+            return;
+
+        isPrintCollectedLasterOrbMessage = true;
+        var sb = new StringBuilder();
+        sb.AppendLine("Ah, well done! That was the last of the globs on this stage.");
+        sb.AppendLine("  * Proceed to the exit");
+
+        OverlayGuiHandler.Instance.ShowMessage(sb.ToString());
+    }
+
+    private bool isPrintNotEnoughOrbsCollectedMessage = false;
+    public void PrintNotEnoughOrbsCollectedMessage()
+    {
+        if (isPrintNotEnoughOrbsCollectedMessage)
+            return;
+
+        isPrintNotEnoughOrbsCollectedMessage = true;
+
+        var sb = new StringBuilder();
+        sb.AppendLine("You haven’t collected enough globules you fool!");
+        sb.AppendLine("  * Come back when you have found and collected all the globs in this stage.");
+
+        OverlayGuiHandler.Instance.ShowMessage(sb.ToString());
     }
 
     public void LoseLevel()
