@@ -2,6 +2,7 @@ Initialize engine version: 5.6.1f1 (2860b30f0b54)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
+<<<<<<< HEAD
     Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
     Vendor:   Intel
     VRAM:     912 MB
@@ -21,3 +22,224 @@ Platform assembly: D:\gamejam\Builds\0.08\BoogerBall_Data\Managed\System.dll (th
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
+=======
+    Renderer: NVIDIA Quadro M1000M (ID=0x13b1)
+    Vendor:   NVIDIA
+    VRAM:     2017 MB
+    Driver:   22.21.13.8205
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.036 seconds
+Platform assembly: D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\bcgit\GameJam2017\Builds\0.08\BoogerBall_Data\Managed\System.dll (this message is harmless)
+desktop: 2560x1440 120Hz; virtual: 4480x1440 at -1920,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.999290 ms
+Could not load GameData from file ex System.IO.IsolatedStorage.IsolatedStorageException: Could not find file "D:\bcgit\GameJam2017\Builds\0.08\GameData.json".
+  at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, Boolean anonymous, FileOptions options) [0x00000] in <filename unknown>:0 
+  at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share) [0x00000] in <filename unknown>:0 
+  at System.IO.File.OpenRead (System.String path) [0x00000] in <filename unknown>:0 
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize) [0x00000] in <filename unknown>:0 
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding) [0x00000] in <filename unknown>:0 
+  at System.IO.File.ReadAllText (System.String path, System.Text.Encoding encoding) [0x00000] in <filename unknown>:0 
+  at System.IO.File.ReadAllText (System.String path) [0x00000] in <filename unknown>:0 
+  at GameDataService..ctor () [0x00000] in <filename unknown>:0 
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.660856 ms
+
+Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 320.
+Total: 0.341710 ms (FindLiveObjects: 0.038890 ms CreateObjectMapping: 0.027940 ms MarkObjects: 0.239763 ms  DeleteObjects: 0.034737 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.538052 ms
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 916.
+Total: 0.857863 ms (FindLiveObjects: 0.090996 ms CreateObjectMapping: 0.073628 ms MarkObjects: 0.652081 ms  DeleteObjects: 0.040401 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.352494 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1674.
+Total: 0.829922 ms (FindLiveObjects: 0.144613 ms CreateObjectMapping: 0.066831 ms MarkObjects: 0.607905 ms  DeleteObjects: 0.009817 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.265862 ms
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.733261 ms (FindLiveObjects: 0.098170 ms CreateObjectMapping: 0.045309 ms MarkObjects: 0.572790 ms  DeleteObjects: 0.015858 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.438794 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.676247 ms (FindLiveObjects: 0.093640 ms CreateObjectMapping: 0.044932 ms MarkObjects: 0.530123 ms  DeleteObjects: 0.007174 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.587560 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.730241 ms (FindLiveObjects: 0.092507 ms CreateObjectMapping: 0.045309 ms MarkObjects: 0.583739 ms  DeleteObjects: 0.007929 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.515443 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.714382 ms (FindLiveObjects: 0.117050 ms CreateObjectMapping: 0.047952 ms MarkObjects: 0.541450 ms  DeleteObjects: 0.007551 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.589448 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.746854 ms (FindLiveObjects: 0.110253 ms CreateObjectMapping: 0.044554 ms MarkObjects: 0.583739 ms  DeleteObjects: 0.007551 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.192822 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.689462 ms (FindLiveObjects: 0.094017 ms CreateObjectMapping: 0.046820 ms MarkObjects: 0.539562 ms  DeleteObjects: 0.008306 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.558487 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.693993 ms (FindLiveObjects: 0.094395 ms CreateObjectMapping: 0.044554 ms MarkObjects: 0.547114 ms  DeleteObjects: 0.006796 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.467112 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.707586 ms (FindLiveObjects: 0.114784 ms CreateObjectMapping: 0.045309 ms MarkObjects: 0.539940 ms  DeleteObjects: 0.006796 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.593602 ms
+
+Unloading 154 unused Assets to reduce memory usage. Loaded Objects now: 313.
+Total: 1.158417 ms (FindLiveObjects: 0.038890 ms CreateObjectMapping: 0.027940 ms MarkObjects: 0.270347 ms  DeleteObjects: 0.820483 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.482548 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 422.
+Total: 0.411563 ms (FindLiveObjects: 0.030584 ms CreateObjectMapping: 0.023410 ms MarkObjects: 0.352282 ms  DeleteObjects: 0.004908 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.685686 ms
+
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 325.
+Total: 0.440259 ms (FindLiveObjects: 0.033227 ms CreateObjectMapping: 0.022654 ms MarkObjects: 0.352282 ms  DeleteObjects: 0.030584 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.399858 ms
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 916.
+Total: 0.609037 ms (FindLiveObjects: 0.061168 ms CreateObjectMapping: 0.042289 ms MarkObjects: 0.475374 ms  DeleteObjects: 0.029828 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.371750 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 1674.
+Total: 0.904683 ms (FindLiveObjects: 0.123468 ms CreateObjectMapping: 0.067586 ms MarkObjects: 0.705320 ms  DeleteObjects: 0.007929 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.331561 ms
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 1356.
+Total: 0.701167 ms (FindLiveObjects: 0.093262 ms CreateObjectMapping: 0.044932 ms MarkObjects: 0.545226 ms  DeleteObjects: 0.017368 ms)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at OverlayGuiHandler.ShowMessage (System.String message, Single time) [0x00000] in <filename unknown>:0 
+  at OverlayGuiHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.727265 ms
+
+Unloading 154 unused Assets to reduce memory usage. Loaded Objects now: 313.
+Total: 1.226004 ms (FindLiveObjects: 0.050218 ms CreateObjectMapping: 0.041911 ms MarkObjects: 0.345863 ms  DeleteObjects: 0.786878 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.408164 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 422.
+Total: 0.487456 ms (FindLiveObjects: 0.030584 ms CreateObjectMapping: 0.023410 ms MarkObjects: 0.427043 ms  DeleteObjects: 0.005663 ms)
+
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 14700 -> priority: 1 
+  Thread -> id: 1231c -> priority: 1 
+  Thread -> id: 12a2c -> priority: 1 
+  Thread -> id: f640 -> priority: 1 
+>>>>>>> 6c6cdbf40e55506b8ff458b5f75fd21591a04755
