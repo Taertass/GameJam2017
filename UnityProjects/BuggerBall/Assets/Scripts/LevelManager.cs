@@ -19,6 +19,8 @@ public class LevelManager : MonoBehaviour {
     public int Score;
     public int ScoreNeededToWin;
 
+    public string levelName;
+
     public bool isGameRunning = true;
 
     public LevelData CurrentLevelData { get; private set; }

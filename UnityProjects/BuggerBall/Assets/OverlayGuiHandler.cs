@@ -38,7 +38,21 @@ public class OverlayGuiHandler : MonoBehaviour {
     // Use this for initialization
     void Start () {
         instance = this;
-        levelText.text = "Level  " + (SceneManager.GetActiveScene().buildIndex - 1);
+
+        if(LevelManager.Instance != null)
+        {
+            var levelName = LevelManager.Instance.levelName;
+            var levelNumber = SceneManager.GetActiveScene().buildIndex - 1;
+            if (!string.IsNullOrEmpty(levelName))
+            {
+                levelText.text = levelName + "  ( " + levelNumber +")";
+            }
+            else
+            {
+                levelText.text = "Level  " + levelNumber;
+            }
+        }
+        
 
         foreach (var obj in transform.GetComponentsInChildren<Transform>(true))
         {
