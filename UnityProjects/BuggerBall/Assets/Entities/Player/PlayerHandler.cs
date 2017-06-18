@@ -6,7 +6,8 @@ public class PlayerHandler : MonoBehaviour {
 
     public GameObject ball;
     public DirectionManager directionManager;
-    public Sprite slimeSprite;
+    public Sprite slimeSpriteUpDown;
+    public Sprite slimeSpriteLeftRight;
 
     private Rigidbody2D rigidBody;
     private Animator ballAnimator;
@@ -163,7 +164,7 @@ public class PlayerHandler : MonoBehaviour {
         ballAnimator.SetBool("IsJumping", false);
 
         //Create slime
-        InstantiateSlime(ball.transform.position);
+        InstantiateSlime(ball.transform.position, stuckToDirections);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -203,16 +204,34 @@ public class PlayerHandler : MonoBehaviour {
         LevelManager.Instance.LoseLevel();
     }
 
-    private void InstantiateSlime(Vector3 position)
+    private void InstantiateSlime(Vector3 position, Direction direction)
     {
         GameObject slime = new GameObject();
         slime.AddComponent<SpriteRenderer>();
         SpriteRenderer spriteRenderer = slime.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = slimeSprite;
-
-        spriteRenderer.transform.localScale = new Vector2(0.2f, 0.2f);
-
         slime.transform.position = position;
+        slime.transform.localScale = new Vector3(1.5f, 1.5f);
+
+        if (direction == Direction.Up || direction == Direction.Down)
+        {
+            spriteRenderer.sprite = slimeSpriteUpDown;
+            slime.transform.position = new Vector3(position.x, position.y - 0.15f);
+        } else
+        {
+            spriteRenderer.sprite = slimeSpriteLeftRight;
+
+
+            if (direction == Direction.Right)
+            {
+                slime.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+                slime.transform.position = new Vector3(position.x -= 0.15f, position.y);
+            }
+            else if (direction == Direction.Left)
+            {
+                slime.transform.position = new Vector3(position.x += 0.15f, position.y);
+                slime.transform.rotation = Quaternion.AngleAxis(270, Vector3.forward);
+            }
+        }
     }
 
     private void Grow()
