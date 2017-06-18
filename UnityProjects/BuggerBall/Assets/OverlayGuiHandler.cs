@@ -70,8 +70,6 @@ public class OverlayGuiHandler : MonoBehaviour {
             speechPanelImage.CrossFadeAlpha(0, 0, true);
             canvasBackground.CrossFadeAlpha(0, 0, true);
         }
-
-        ShowMessage("Hello World", 5f);
 	}
 	
 	// Update is called once per frame
