@@ -21,6 +21,12 @@ public class LevelManager : MonoBehaviour {
     public bool isGameRunning = true;
 
     void Start () {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+
         instance = this;
         isGameRunning = true;
 
