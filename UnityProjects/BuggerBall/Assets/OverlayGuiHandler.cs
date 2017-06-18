@@ -36,11 +36,6 @@ public class OverlayGuiHandler : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        if (instance != null)
-        {
-            Destroy(this);
-            return;
-        }
         instance = this;
         levelText.text = "Level  " + (SceneManager.GetActiveScene().buildIndex - 1);
 

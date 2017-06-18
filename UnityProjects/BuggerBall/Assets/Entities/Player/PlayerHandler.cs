@@ -97,6 +97,9 @@ public class PlayerHandler : MonoBehaviour {
 
             //Reenable movement on the player
             rigidBody.constraints = RigidbodyConstraints2D.None;
+
+            if(LevelManager.Instance != null && LevelManager.Instance.CurrentLevelData != null)
+                LevelManager.Instance.CurrentLevelData.JumpCount++;
         }
         else if (isStuck)
         {

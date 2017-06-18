@@ -5,8 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class WinGameHandler : MonoBehaviour {
 
-	public void BackToStartButtonClicked()
+    private void Start()
     {
+        if(GameHandler.Instance)
+            GameHandler.Instance.SaveCurrentGameData();
+    }
+
+    public void BackToStartButtonClicked()
+    {
+
         SceneManager.LoadScene(0);
     }
 }
