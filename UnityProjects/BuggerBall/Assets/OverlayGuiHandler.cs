@@ -29,12 +29,12 @@ public class OverlayGuiHandler : MonoBehaviour {
     void Start () {
         instance = this;
 
-        levelText.text = "Level " + (SceneManager.GetActiveScene().buildIndex - 1);
+        levelText.text = "Level  " + (SceneManager.GetActiveScene().buildIndex - 1);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        scoreText.text = string.Format("Score {0} / {1}", LevelManager.Instance.Score, LevelManager.Instance.ScoreNeededToWin);
+        scoreText.text = string.Format("Score  {0} of {1}", LevelManager.Instance.Score, LevelManager.Instance.ScoreNeededToWin);
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
