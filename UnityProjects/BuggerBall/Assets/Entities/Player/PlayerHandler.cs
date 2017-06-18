@@ -217,7 +217,6 @@ public class PlayerHandler : MonoBehaviour {
         GameObject slime = new GameObject();        
         slime.AddComponent<SpriteRenderer>();
         SpriteRenderer spriteRenderer = slime.GetComponent<SpriteRenderer>();
-        slime.transform.parent = transform;
         slime.transform.position = position;
         slime.transform.localScale = new Vector3(1.5f, 1.5f);
 
