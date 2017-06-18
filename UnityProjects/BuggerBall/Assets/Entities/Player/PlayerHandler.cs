@@ -198,6 +198,11 @@ public class PlayerHandler : MonoBehaviour {
 
                 if (SoundHandler.Instance != null)
                     SoundHandler.Instance.PlayUpgradeSound();
+
+                if(LevelManager.Instance.Score == LevelManager.Instance.ScoreNeededToWin)
+                {
+                    LevelManager.Instance.PrintCollectedLasterOrbMessage();
+                }
             }
         }
     }
@@ -209,9 +214,10 @@ public class PlayerHandler : MonoBehaviour {
 
     private void InstantiateSlime(Vector3 position, Direction direction)
     {
-        GameObject slime = new GameObject();
+        GameObject slime = new GameObject();        
         slime.AddComponent<SpriteRenderer>();
         SpriteRenderer spriteRenderer = slime.GetComponent<SpriteRenderer>();
+        slime.transform.parent = transform;
         slime.transform.position = position;
         slime.transform.localScale = new Vector3(1.5f, 1.5f);
 
