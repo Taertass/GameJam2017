@@ -12,6 +12,8 @@ public class OverlayGuiHandler : MonoBehaviour {
     public GameObject deathPanel;
     public GameObject winPanel;
 
+    private GameObject speechPanel;
+
     public bool isShowingEscapePane = false;
     public bool isShowingDeathPanel = false;
     public bool isShowingWinPanel = false;
@@ -28,7 +30,6 @@ public class OverlayGuiHandler : MonoBehaviour {
     // Use this for initialization
     void Start () {
         instance = this;
-
         levelText.text = "Level  " + (SceneManager.GetActiveScene().buildIndex - 1);
 	}
 	
