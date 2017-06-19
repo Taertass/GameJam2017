@@ -1,5 +1,5 @@
 # BOOGERBALL
-## FTGameJam 2017 16. juni til 18 juni
+###### FTGameJam 2017 16. juni til 18 juni
 
 Spælið, eitur “Booger-ball” (arbeiðstitul), og er framleitt við einum breiðum brúksskaðra í huga. Hetta vil siga at spælið er einfalt og ber til at spæla á øllum hugsandi platformum. 
 
